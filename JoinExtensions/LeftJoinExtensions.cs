@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using LinqKit;
 
 namespace JoinExtensions
 {
@@ -24,10 +25,19 @@ namespace JoinExtensions
                     select resultFunc(l, r1)
                     );
              */
-            var query = left
-                .GroupJoin(right, leftKey, rightKey, (l, j1) => new {l, j1})
-                .SelectMany(t => t.j1.DefaultIfEmpty(), (t, r1) => resultFunc(t.l, r1));
-            return query;
+            var result = left
+                        .AsExpandable()// Tell LinqKit to convert everything into an expression tree.
+                        .GroupJoin(
+                            right,
+                            leftKey,
+                            rightKey,
+                            (outerItem, innerItems) => new { outerItem, innerItems })
+                        .SelectMany(
+                            joinResult => joinResult.innerItems.DefaultIfEmpty(),
+                            (joinResult, innerItem) => 
+                                resultFunc(joinResult.outerItem, innerItem));
+        
+            return result;
         }     
         
         /// <summary>

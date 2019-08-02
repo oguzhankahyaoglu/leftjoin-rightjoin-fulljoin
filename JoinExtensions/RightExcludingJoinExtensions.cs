@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using LinqKit;
 
 namespace JoinExtensions
 {
@@ -29,6 +30,7 @@ namespace JoinExtensions
             where TLeft : class where TRight : class
         {
             var result = right
+                .AsExpandable()
                 .GroupJoin(left, rightKey, leftKey, (r, l) => new {r, l})
                 .SelectMany(a => a.l.DefaultIfEmpty(), (a, r) => new {a, r})
                 .Where(a => a.r == null)
