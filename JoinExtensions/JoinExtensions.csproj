@@ -10,8 +10,8 @@
         <PackageProjectUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</PackageProjectUrl>
         <RepositoryUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</RepositoryUrl>
         <PackageTags>leftjoin rightjoin fulljoin outerjoin</PackageTags>
-        <PackageVersion>1.3.0</PackageVersion>
-        <PackageReleaseNotes>v1.3 LinqKit Removed dependency</PackageReleaseNotes>
+        <PackageVersion>2.0.0</PackageVersion>
+        <PackageReleaseNotes>v2.0 Linqkit and TResult projection for IQueryable removed. IQueryable methods now returning Tuples instead of TResult types given by the parameter Func </PackageReleaseNotes>
     </PropertyGroup>
 
 </Project>

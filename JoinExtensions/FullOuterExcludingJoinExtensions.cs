@@ -10,17 +10,16 @@ namespace JoinExtensions
         /// <summary>
         /// This method will take only A & B sides ,excluding A+B common items.
         /// </summary>
-        public static IQueryable<TResult>
-            FullOuterExcludingJoin<TLeft, TRight, TKey, TResult>(
+        public static IQueryable<Tuple<TLeft, TRight>>
+            FullOuterExcludingJoin<TLeft, TRight, TKey>(
                 this IQueryable<TLeft> left,
                 IQueryable<TRight> right,
                 Expression<Func<TLeft, TKey>> leftKey,
-                Expression<Func<TRight, TKey>> rightKey,
-                Func<TLeft, TRight, TResult> resultFunc)
+                Expression<Func<TRight, TKey>> rightKey)
             where TLeft : class where TRight : class
         {
-            var leftResult = left.LeftExcludingJoin(right, leftKey, rightKey, resultFunc);
-            var rightResult = left.RightExcludingJoin(right, leftKey, rightKey, resultFunc);
+            var leftResult = left.LeftExcludingJoin(right, leftKey, rightKey);
+            var rightResult = left.RightExcludingJoin(right, leftKey, rightKey);
             return leftResult.Union(rightResult);
         }
 

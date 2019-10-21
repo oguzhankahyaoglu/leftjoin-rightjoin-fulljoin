@@ -8,16 +8,15 @@ namespace JoinExtensions
     // ReSharper disable PossibleMultipleEnumeration
     public static class FullOuterJoinExtensions
     {
-        public static IQueryable<TResult> FullOuterJoinJoin<TLeft, TRight, TKey, TResult>(
+        public static IQueryable<Tuple<TLeft, TRight>> FullOuterJoinJoin<TLeft, TRight, TKey>(
             this IQueryable<TLeft> left,
             IQueryable<TRight> right,
             Expression<Func<TLeft, TKey>> leftKey,
-            Expression<Func<TRight, TKey>> rightKey,
-            Func<TLeft, TRight, TResult> result)
+            Expression<Func<TRight, TKey>> rightKey)
             where TLeft : class where TRight : class
         {
-            var leftResult = left.LeftJoin(right, leftKey, rightKey, result);
-            var rightResult = left.RightJoin(right, leftKey, rightKey, result);
+            var leftResult = left.LeftJoin(right, leftKey, rightKey);
+            var rightResult = left.RightJoin(right, leftKey, rightKey);
             return leftResult.Union(rightResult);
         }
         

@@ -7,12 +7,11 @@ namespace JoinExtensions
 {
     public static class LeftJoinExtensions
     {
-        public static IQueryable<TResult> LeftJoin<TLeft, TRight, TKey, TResult>(
+        public static IQueryable<Tuple<TLeft, TRight>> LeftJoin<TLeft, TRight, TKey>(
             this IQueryable<TLeft> left, 
             IQueryable<TRight> right,
             Expression<Func<TLeft, TKey>> leftKey,
-            Expression<Func<TRight, TKey>> rightKey,
-            Func<TLeft, TRight, TResult> resultFunc
+            Expression<Func<TRight, TKey>> rightKey
             )
         {
             /*
@@ -34,7 +33,7 @@ namespace JoinExtensions
                         .SelectMany(
                             joinResult => joinResult.innerItems.DefaultIfEmpty(),
                             (joinResult, innerItem) => 
-                                resultFunc(joinResult.outerItem, innerItem));
+                                Tuple.Create(joinResult.outerItem, innerItem));
         
             return result;
         }     

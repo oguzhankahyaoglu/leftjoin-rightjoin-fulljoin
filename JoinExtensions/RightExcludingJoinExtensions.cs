@@ -20,12 +20,11 @@ namespace JoinExtensions
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
-        public static IQueryable<TResult>
-            RightExcludingJoin<TLeft, TRight, TKey, TResult>(this IQueryable<TLeft> left,
+        public static IQueryable<Tuple<TLeft, TRight>>
+            RightExcludingJoin<TLeft, TRight, TKey>(this IQueryable<TLeft> left,
                 IQueryable<TRight> right,
                 Expression<Func<TLeft, TKey>> leftKey,
-                Expression<Func<TRight, TKey>> rightKey,
-                Func<TLeft, TRight, TResult> resultFunc)
+                Expression<Func<TRight, TKey>> rightKey)
             where TLeft : class where TRight : class
         {
             var result = right
@@ -33,7 +32,7 @@ namespace JoinExtensions
                 .GroupJoin(left, rightKey, leftKey, (r, l) => new {r, l})
                 .SelectMany(a => a.l.DefaultIfEmpty(), (a, r) => new {a, r})
                 .Where(a => a.r == null)
-                .Select(a => resultFunc(null, a.a.r));
+                .Select(a => Tuple.Create<TLeft, TRight>(null, a.a.r));
             return result;
         }
 

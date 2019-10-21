@@ -14,18 +14,15 @@ namespace JoinExtensions
         /// <param name="rightSide"></param>
         /// <param name="leftKey"></param>
         /// <param name="rightKey"></param>
-        /// <param name="resultFunc">RIGHT WILL ALWAYS RETURN NULL</param>
         /// <typeparam name="TLeft"></typeparam>
         /// <typeparam name="TRight"></typeparam>
         /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
-        public static IQueryable<TResult> LeftExcludingJoin<TLeft, TRight, TKey, TResult>(
+        public static IQueryable<Tuple<TLeft, TRight>> LeftExcludingJoin<TLeft, TRight, TKey>(
             this IQueryable<TLeft> leftSide,
                 IQueryable<TRight> rightSide,
                 Expression<Func<TLeft, TKey>> leftKey,
-                Expression<Func<TRight, TKey>> rightKey,
-                Func<TLeft, TRight,TResult> resultFunc)
+                Expression<Func<TRight, TKey>> rightKey)
             where TLeft : class where TRight : class
         {
             var result = leftSide
@@ -33,7 +30,7 @@ namespace JoinExtensions
                 .GroupJoin(rightSide, leftKey, rightKey, (l, r) => new {l, r})
                 .SelectMany(a => a.r.DefaultIfEmpty(), (a, r) => new {a, r})
                 .Where(a => a.r == null)
-                .Select(a => resultFunc(a.a.l, a.r));
+                .Select(a => Tuple.Create(a.a.l, a.r));
             return result;
         } 
         

@@ -7,16 +7,15 @@ namespace JoinExtensions
 {
     public static class RightJoinExtensions
     {
-        public static IQueryable<TResult> RightJoin<TLeft, TRight, TKey, TResult>(
+        public static IQueryable<Tuple<TLeft, TRight>> RightJoin<TLeft, TRight, TKey>(
             this IQueryable<TLeft> left, 
             IQueryable<TRight> right,
             Expression<Func<TLeft, TKey>> leftKey,
-            Expression<Func<TRight, TKey>> rightKey,
-            Func<TLeft, TRight, TResult> resultFunc
+            Expression<Func<TRight, TKey>> rightKey
         )
         {
-            var query = right.LeftJoin(left, rightKey, leftKey, (i, o) => resultFunc(o, i));
-            return query;
+            var query = right.LeftJoin(left, rightKey, leftKey);
+            return query.Select(t=> Tuple.Create(t.Item2, t.Item1));
         }
         
         /// <summary>
