@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using LinqKit;
 
 namespace JoinExtensions
 {
@@ -26,7 +25,7 @@ namespace JoinExtensions
                     );
              */
             var result = left
-                        .AsExpandable()// Tell LinqKit to convert everything into an expression tree.
+//                        .AsExpandable()// Tell LinqKit to convert everything into an expression tree.
                         .GroupJoin(
                             right,
                             leftKey,

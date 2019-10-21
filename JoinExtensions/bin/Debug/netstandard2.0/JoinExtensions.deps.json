@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "8320ad4c6ea6d9ff4096f8710feb32a7cd999f10"
+    "signature": ""
   },
   "compilationOptions": {},
   "targets": {
@@ -9,19 +9,10 @@
     ".NETStandard,Version=v2.0/": {
       "JoinExtensions/1.0.0": {
         "dependencies": {
-          "LinqKit.Core": "1.1.16",
           "NETStandard.Library": "2.0.3"
         },
         "runtime": {
           "JoinExtensions.dll": {}
-        }
-      },
-      "LinqKit.Core/1.1.16": {
-        "runtime": {
-          "lib/netstandard2.0/LinqKit.Core.dll": {
-            "assemblyVersion": "1.1.16.0",
-            "fileVersion": "1.1.16.0"
-          }
         }
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
@@ -38,17 +29,10 @@
       "serviceable": false,
       "sha512": ""
     },
-    "LinqKit.Core/1.1.16": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-6rK3zR6V/z7Z5U3psHTXt5CTMCH1XBHORdA43WfcejUD7Cxey4UqIrH30loYR9gu4eRXsP0gCLMK48AZ8fkJ1g==",
-      "path": "linqkit.core/1.1.16",
-      "hashPath": "linqkit.core.1.1.16.nupkg.sha512"
-    },
     "Microsoft.NETCore.Platforms/1.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-FNnEFYlBf06sNNK/5uxpwu3UUTCq7vEJlsOWc4Sxo1oXb3+lQjPFxPmsEiQWeXQLKqcObVnhi5KRVXb/oXs+OQ==",
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
       "path": "microsoft.netcore.platforms/1.1.0",
       "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
     },
