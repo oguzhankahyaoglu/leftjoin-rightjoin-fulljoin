@@ -18,11 +18,11 @@ namespace JoinExtensions
         /// <typeparam name="TRight"></typeparam>
         /// <typeparam name="TKey"></typeparam>
         /// <returns></returns>
-        public static IQueryable<Tuple<TLeft, TRight>> LeftExcludingJoin<TLeft, TRight, TKey>(
+        public static IQueryable<JoinItem<TLeft, TRight>> LeftExcludingJoin<TLeft, TRight, TKey>(
             this IQueryable<TLeft> leftSide,
-                IQueryable<TRight> rightSide,
-                Expression<Func<TLeft, TKey>> leftKey,
-                Expression<Func<TRight, TKey>> rightKey)
+            IQueryable<TRight> rightSide,
+            Expression<Func<TLeft, TKey>> leftKey,
+            Expression<Func<TRight, TKey>> rightKey)
             where TLeft : class where TRight : class
         {
             var result = leftSide
@@ -30,10 +30,14 @@ namespace JoinExtensions
                 .GroupJoin(rightSide, leftKey, rightKey, (l, r) => new {l, r})
                 .SelectMany(a => a.r.DefaultIfEmpty(), (a, r) => new {a, r})
                 .Where(a => a.r == null)
-                .Select(a => Tuple.Create(a.a.l, a.r));
+                .Select(a => new JoinItem<TLeft, TRight>
+                {
+                    Left = a.a.l,
+                    Right = a.r
+                });
             return result;
-        } 
-        
+        }
+
         /// <summary>
         /// For A -> B join, this method takes only A side, excluding common items with B.
         /// DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database.
@@ -49,13 +53,14 @@ namespace JoinExtensions
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
-        [Obsolete("DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
+        [Obsolete(
+            "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
         public static IEnumerable<TResult> LeftExcludingJoin<TLeft, TRight, TKey, TResult>(
             this IEnumerable<TLeft> leftSide,
-                IEnumerable<TRight> rightSide,
-                Func<TLeft, TKey> leftKey,
-                Func<TRight, TKey> rightKey,
-                Func<TLeft, TRight, TResult> resultFunc)
+            IEnumerable<TRight> rightSide,
+            Func<TLeft, TKey> leftKey,
+            Func<TRight, TKey> rightKey,
+            Func<TLeft, TRight, TResult> resultFunc)
             where TLeft : class where TRight : class
         {
             var _result = leftSide
@@ -65,7 +70,6 @@ namespace JoinExtensions
                 .Select(a => resultFunc(a.a.l, null));
 
             return _result;
-        } 
-
+        }
     }
 }

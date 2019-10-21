@@ -10,7 +10,7 @@ namespace JoinExtensions
         /// <summary>
         /// This method will take only A & B sides ,excluding A+B common items.
         /// </summary>
-        public static IQueryable<Tuple<TLeft, TRight>>
+        public static IQueryable<JoinItem<TLeft, TRight>>
             FullOuterExcludingJoin<TLeft, TRight, TKey>(
                 this IQueryable<TLeft> left,
                 IQueryable<TRight> right,

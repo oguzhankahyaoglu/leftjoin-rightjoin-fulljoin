@@ -7,12 +7,12 @@ namespace JoinExtensions
 {
     public static class LeftJoinExtensions
     {
-        public static IQueryable<Tuple<TLeft, TRight>> LeftJoin<TLeft, TRight, TKey>(
-            this IQueryable<TLeft> left, 
+        public static IQueryable<JoinItem<TLeft, TRight>> LeftJoin<TLeft, TRight, TKey>(
+            this IQueryable<TLeft> left,
             IQueryable<TRight> right,
             Expression<Func<TLeft, TKey>> leftKey,
             Expression<Func<TRight, TKey>> rightKey
-            )
+        )
         {
             /*
             var query = (
@@ -25,31 +25,36 @@ namespace JoinExtensions
              */
             var result = left
 //                        .AsExpandable()// Tell LinqKit to convert everything into an expression tree.
-                        .GroupJoin(
-                            right,
-                            leftKey,
-                            rightKey,
-                            (outerItem, innerItems) => new { outerItem, innerItems })
-                        .SelectMany(
-                            joinResult => joinResult.innerItems.DefaultIfEmpty(),
-                            (joinResult, innerItem) => 
-                                Tuple.Create(joinResult.outerItem, innerItem));
-        
+                .GroupJoin(
+                    right,
+                    leftKey,
+                    rightKey,
+                    (outerItem, innerItems) => new {outerItem, innerItems})
+                .SelectMany(
+                    joinResult => joinResult.innerItems.DefaultIfEmpty(),
+                    (joinResult, innerItem) =>
+                        new JoinItem<TLeft, TRight>
+                        {
+                            Left = joinResult.outerItem,
+                            Right = innerItem
+                        });
+
             return result;
-        }     
-        
+        }
+
         /// <summary>
         /// DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database.
         /// In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD
         /// </summary>
-        [Obsolete("DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
+        [Obsolete(
+            "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
         public static IEnumerable<TResult> LeftJoin<TLeft, TRight, TKey, TResult>(
-            this IEnumerable<TLeft> left, 
+            this IEnumerable<TLeft> left,
             IEnumerable<TRight> right,
             Func<TLeft, TKey> leftKey,
             Func<TRight, TKey> rightKey,
             Func<TLeft, TRight, TResult> resultFunc
-            )
+        )
         {
             /*
             var query = (
