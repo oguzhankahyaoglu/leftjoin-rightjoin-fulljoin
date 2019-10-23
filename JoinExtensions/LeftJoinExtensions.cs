@@ -70,5 +70,32 @@ namespace JoinExtensions
                 .SelectMany(t => t.j1.DefaultIfEmpty(), (t, r1) => resultFunc(t.l, r1));
             return query;
         }
+        
+        /// <summary>
+        /// LeftJoin.IEnumerable'ın joinCondition lambda ile çalışacak hali 
+        /// </summary>
+        [Obsolete(
+            "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
+        public static IEnumerable<TResult> LeftJoin<TLeft, TRight, TResult>(
+            this IEnumerable<TLeft> left,
+            IEnumerable<TRight> right,
+            Func<TLeft, TRight, bool> joinCondition,
+            Func<TLeft, TRight, TResult> resultFunc
+        )
+        {
+            /*
+var query2 = (
+    from users in Repo.T_User
+    from mappings in Repo.T_User_Group
+         .Where(mapping => mapping.USRGRP_USR == users.USR_ID)
+         .DefaultIfEmpty() // <== makes join left join
+             */
+            var query =
+                from l in left
+                from r in right.Where(rr => joinCondition(l, rr))
+                    .DefaultIfEmpty()
+                select resultFunc(l, r);
+            return query;
+        }
     }
 }
