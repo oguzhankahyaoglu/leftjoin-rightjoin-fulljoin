@@ -61,7 +61,7 @@ namespace JoinExtensions.Enumerable
         /// </summary>
         [Obsolete(
             "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
-        public static IEnumerable<TResult> LeftJoinEnumerable<TLeft, TRight, TResult>(
+        public static IEnumerable<TResult> LeftJoinExtEnumerable<TLeft, TRight, TResult>(
             this IEnumerable<TLeft> left,
             IEnumerable<TRight> right,
             Func<TLeft, TRight, bool> joinCondition,

@@ -10,7 +10,7 @@
         <PackageProjectUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</PackageProjectUrl>
         <RepositoryUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</RepositoryUrl>
         <PackageTags>leftjoin rightjoin fulljoin outerjoin</PackageTags>
-        <PackageVersion>3.0.0</PackageVersion>
+        <PackageVersion>3.0.1</PackageVersion>
         <PackageReleaseNotes>
             v3.0 All extensions got Ext prefix, to seperate from EntityFramework LeftJoin like methods.
             v2.2 JointItem tostring method written
