@@ -1,54 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
-namespace JoinExtensions
+namespace JoinExtensions.Enumerable
 {
-    public static class LeftJoinExtensions
+    public static class EnumerableLeftJoinExtensions
     {
-        public static IQueryable<JoinItem<TLeft, TRight>> LeftJoin<TLeft, TRight, TKey>(
-            this IQueryable<TLeft> left,
-            IQueryable<TRight> right,
-            Expression<Func<TLeft, TKey>> leftKey,
-            Expression<Func<TRight, TKey>> rightKey
-        )
-        {
-            /*
-            var query = (
-                    from l in left
-                    join r in right on leftKey(l) equals rightKey(r)
-                    into j1
-                    from r1 in j1.DefaultIfEmpty()
-                    select resultFunc(l, r1)
-                    );
-             */
-            var result = left
-//                        .AsExpandable()// Tell LinqKit to convert everything into an expression tree.
-                .GroupJoin(
-                    right,
-                    leftKey,
-                    rightKey,
-                    (outerItem, innerItems) => new {outerItem, innerItems})
-                .SelectMany(
-                    joinResult => joinResult.innerItems.DefaultIfEmpty(),
-                    (joinResult, innerItem) =>
-                        new JoinItem<TLeft, TRight>
-                        {
-                            Left = joinResult.outerItem,
-                            Right = innerItem
-                        });
-
-            return result;
-        }
-
         /// <summary>
         /// DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database.
         /// In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD
         /// </summary>
         [Obsolete(
             "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
-        public static IEnumerable<TResult> LeftJoin<TLeft, TRight, TKey, TResult>(
+        public static IEnumerable<JoinItem<TLeft, TRight>> LeftJoinExtEnumerable<TLeft, TRight, TKey>(
+            this IEnumerable<TLeft> left,
+            IEnumerable<TRight> right,
+            Func<TLeft, TKey> leftKey,
+            Func<TRight, TKey> rightKey
+        )
+        {
+            var query = LeftJoinExtEnumerable(left, right, leftKey, rightKey, (l, r) => new JoinItem<TLeft, TRight>
+            {
+                Left = l,
+                Right = r
+            });
+            return query;
+        }    
+        
+        /// <summary>
+        /// DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database.
+        /// In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD
+        /// </summary>
+        [Obsolete(
+            "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
+        public static IEnumerable<TResult> LeftJoinExtEnumerable<TLeft, TRight, TKey, TResult>(
             this IEnumerable<TLeft> left,
             IEnumerable<TRight> right,
             Func<TLeft, TKey> leftKey,
@@ -76,7 +61,7 @@ namespace JoinExtensions
         /// </summary>
         [Obsolete(
             "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
-        public static IEnumerable<TResult> LeftJoin<TLeft, TRight, TResult>(
+        public static IEnumerable<TResult> LeftJoinEnumerable<TLeft, TRight, TResult>(
             this IEnumerable<TLeft> left,
             IEnumerable<TRight> right,
             Func<TLeft, TRight, bool> joinCondition,

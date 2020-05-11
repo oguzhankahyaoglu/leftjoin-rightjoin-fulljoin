@@ -1,34 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 
-namespace JoinExtensions
+namespace JoinExtensions.Enumerable
 {
-    public static class RightJoinExtensions
+    public static class EnumerableRightJoinExtensions
     {
-        public static IQueryable<JoinItem<TLeft, TRight>> RightJoin<TLeft, TRight, TKey>(
-            this IQueryable<TLeft> left,
-            IQueryable<TRight> right,
-            Expression<Func<TLeft, TKey>> leftKey,
-            Expression<Func<TRight, TKey>> rightKey
-        )
-        {
-            var query = right.LeftJoin(left, rightKey, leftKey);
-            return query.Select(t => new JoinItem<TLeft, TRight>
-            {
-                Left = t.Right,
-                Right = t.Left
-            });
-        }
-
         /// <summary>
         /// DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database.
         /// In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD
         /// </summary>
         [Obsolete(
             "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
-        public static IEnumerable<TResult> RightJoin<TLeft, TRight, TKey, TResult>(
+        public static IEnumerable<TResult> RightJoinExtEnumerable<TLeft, TRight, TKey, TResult>(
             this IEnumerable<TLeft> left,
             IEnumerable<TRight> right,
             Func<TLeft, TKey> leftKey,
@@ -36,7 +19,7 @@ namespace JoinExtensions
             Func<TLeft, TRight, TResult> resultFunc
         )
         {
-            var query = right.LeftJoin(left, rightKey, leftKey, (i, o) => resultFunc(o, i));
+            var query = EnumerableLeftJoinExtensions.LeftJoinExtEnumerable(right, left, rightKey, leftKey, (i, o) => resultFunc(o, i));
             return query;
         }
     }
