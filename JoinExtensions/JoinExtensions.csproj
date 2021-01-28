@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.1;net5.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>leftjoin-rightjoin-fulljoin-outerjoin</PackageId>
         <Title>leftjoin-rightjoin-fulljoin-outerjoin</Title>
         <Authors>oguzhankahyaoglu</Authors>
         <Description>Very simple Left/Right/FullOuterJoin extension methods for both IQueryable and IEnumerable types    </Description>
-        <PackageProjectUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/progablab/leftjoin-rightjoin-fulljoin</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/progablab/leftjoin-rightjoin-fulljoin.git</RepositoryUrl>
         <PackageTags>leftjoin rightjoin fulljoin outerjoin</PackageTags>
-        <PackageVersion>3.0.1</PackageVersion>
         <PackageReleaseNotes>
             v3.0 All extensions got Ext prefix, to seperate from EntityFramework LeftJoin like methods.
             v2.2 JointItem tostring method written
