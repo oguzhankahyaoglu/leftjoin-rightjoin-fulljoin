@@ -9,8 +9,6 @@ namespace JoinExtensions.Enumerable
         /// DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database.
         /// In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD
         /// </summary>
-        [Obsolete(
-            "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
         public static IEnumerable<TResult> RightJoinExtEnumerable<TLeft, TRight, TKey, TResult>(
             this IEnumerable<TLeft> left,
             IEnumerable<TRight> right,

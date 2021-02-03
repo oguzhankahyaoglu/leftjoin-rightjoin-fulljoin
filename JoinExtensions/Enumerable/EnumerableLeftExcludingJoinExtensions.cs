@@ -21,8 +21,6 @@ namespace JoinExtensions.Enumerable
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
-        [Obsolete(
-            "DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database. In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD")]
         public static IEnumerable<TResult> LeftExcludingJoinExtEnumerable<TLeft, TRight, TKey, TResult>(
             this IEnumerable<TLeft> leftSide,
             IEnumerable<TRight> rightSide,
