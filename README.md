@@ -17,3 +17,15 @@ Functionalities:
 - Full Outer Join for IQueryable
 - Full Outer Join for IEnumerable
 - Left Join for IEnumerable via ON statement condition: other overloads uses lambdas for **LEFT=> key** and **RIGTH => key** syntax, this overload uses **(LEFT, RIGHT) => boolean** syntax
+
+# Usage
+
+| Tables   |      Are      |  Cool |
+|-----------------|-----------------------|------|
+| LEFT JOIN       | LeftJoinExt()           | UserRoleRepository.GetAll().LeftJoinExt(roles, ur => ur.RoleId, role => role.Id) |
+| LEFT EXCL JOIN  | LeftExcludingJoin()     | UserRoleRepository.GetAll().LeftExcludingJoinExt(roles, ur => ur.RoleId, role => role.Id) |
+| RIGHT JOIN      | RightJoinExt()          | UserRoleRepository.GetAll().LeftExcludingJoinExt(roles, ur => ur.RoleId, role => role.Id) |
+| RIGHT EXCL JOIN | RightExcludingJoinExt() | UserRoleRepository.GetAll().LeftExcludingJoinExt(roles, ur => ur.RoleId, role => role.Id) |
+| INNER JOIN      | InnerJoinExt()          | UserRoleRepository.GetAll().InnerJoinExt(roles, ur => ur.RoleId, role => role.Id) |
+| FULL JOIN       | FullOuterJoinExt()      | UserRoleRepository.GetAll().FullOuterJoinExt(roles, ur => ur.RoleId, role => role.Id) |
+| FULL EXCL JOIN  | FullOuterExcludingJoinExt() | UserRoleRepository.GetAll().FullOuterExcludingJoinExt(roles, ur => ur.RoleId, role => role.Id) |
