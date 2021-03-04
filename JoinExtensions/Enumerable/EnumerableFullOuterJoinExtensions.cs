@@ -8,20 +8,30 @@ namespace JoinExtensions.Enumerable
     public static class EnumerableFullOuterJoinExtensions
     {
         /// <summary>
-        /// DO NOT USE THIS OVERLOAD (Ienumerable) with EntityFramework or Database-related logic, since it will directly enumerate the query to database.
-        /// In order to ensure that your query works on your database, USE IQUERYABLE OVERLOAD
+        /// Full outer join = Leftjoin + rightjoin
         /// </summary>
         public static IEnumerable<TResult> FullOuterJoinExtEnumerable<TLeft, TRight, TKey, TResult>(
-            this IEnumerable<TLeft> left,
-            IEnumerable<TRight> right,
-            Func<TLeft, TKey> leftKey,
-            Func<TRight, TKey> rightKey,
-            Func<TLeft, TRight, TResult> result)
-            where TLeft : class where TRight : class
+            this IEnumerable<TLeft> leftItems,
+            IEnumerable<TRight> rightItems,
+            Func<TLeft, TKey> leftKeySelector,
+            Func<TRight, TKey> rightKeySelector,
+            Func<TLeft, TRight, TResult> resultSelector)
         {
-            var leftResult = EnumerableLeftJoinExtensions.LeftJoinExtEnumerable(left, right, leftKey, rightKey, result);
-            var rightResult = EnumerableRightJoinExtensions.RightJoinExtEnumerable(left, right, leftKey, rightKey, result);
-            return leftResult.Union(rightResult);
+            var leftJoin =
+                from left in leftItems
+                join right in rightItems
+                    on leftKeySelector(left) equals rightKeySelector(right) into temp
+                from right in temp.DefaultIfEmpty()
+                select resultSelector(left, right);
+
+            var rightJoin =
+                from right in rightItems
+                join left in leftItems
+                    on rightKeySelector(right) equals leftKeySelector(left) into temp
+                from left in temp.DefaultIfEmpty()
+                select resultSelector(left, right);
+
+            return leftJoin.Union(rightJoin);
         }
     }
 }
