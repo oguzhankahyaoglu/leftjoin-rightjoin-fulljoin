@@ -1,23 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <TargetFramework>net5.0</TargetFramework>
         <PackageId>leftjoin-rightjoin-fulljoin-outerjoin</PackageId>
         <Title>leftjoin-rightjoin-fulljoin-outerjoin</Title>
         <Authors>oguzhankahyaoglu</Authors>
-        <Description>Very simple Left/Right/FullOuterJoin extension methods for both IQueryable and IEnumerable types    </Description>
+        <Description>Very simple Left/Right/FullOuterJoin extension methods for both IQueryable and IEnumerable types</Description>
         <PackageProjectUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</PackageProjectUrl>
         <RepositoryUrl>https://github.com/oguzhankahyaoglu/leftjoin-rightjoin-fulljoin.git</RepositoryUrl>
         <PackageTags>leftjoin rightjoin fulljoin outerjoin</PackageTags>
-        <PackageVersion>3.2.0</PackageVersion>
+        <PackageVersion>5.0.0</PackageVersion>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageReleaseNotes>
+            v5.0 added unit tests, upgraded to .net5.0
             v3.2 fullouterjoin not working, fixed
             v3.1 removed obsolete warnings, since they are well understood.
             v3.0 All extensions got Ext prefix, to seperate from EntityFramework LeftJoin like methods.
             v2.2 JointItem tostring method written
             v2.1 LeftJoin.IEnumerable: Join with condition method added
-v2.0 Linqkit and TResult projection for IQueryable removed. IQueryable methods now returning Tuples instead of TResult types given by the parameter Func </PackageReleaseNotes>
+            v2.0 Linqkit and TResult projection for IQueryable removed. IQueryable methods now returning Tuples instead of TResult types given by the parameter Func
+        </PackageReleaseNotes>
     </PropertyGroup>
-
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
 </Project>
